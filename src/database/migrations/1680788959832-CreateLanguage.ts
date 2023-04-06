@@ -21,36 +21,14 @@ export class CreateLanguage1680788959832 implements MigrationInterface {
           default: `uuid_generate_v4()`,
         },
         {
-          name: 'userId',
-          type: 'uuid',
-          isUnique: false,
-          isNullable: false,
-        },
-        {
           name: 'name',
           type: 'varchar',
           length: '100',
           isNullable: false,
         },
-        {
-          name: 'level',
-          type: 'smallint',
-          unsigned: true,
-          isNullable: false,
-        },
       ],
     });
     await queryRunner.createTable(table);
-
-    await queryRunner.createForeignKey(
-      this.TABLE_NAME,
-      new TableForeignKey({
-        columnNames: ['userId'],
-        referencedColumnNames: ['id'],
-        referencedTableName: 'user',
-        onDelete: 'CASCADE',
-      }),
-    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {

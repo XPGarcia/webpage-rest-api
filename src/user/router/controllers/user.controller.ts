@@ -1,6 +1,14 @@
-import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { UserService } from '../../domain/services';
-import { CreateUserDto } from '../dtos';
+import { CreateUserDto, FindUserQueryParams } from '../dtos';
 import { UserDtoMapper } from '../mappers';
 
 @Controller('user')
@@ -21,8 +29,14 @@ export class UserController {
   }
 
   @Get('/:id')
-  async get(@Param('id') userId: string) {
-    const user = await this.userService.findOne({ userId });
+  async get(
+    @Param('id') userId: string,
+    @Query() queryParams?: FindUserQueryParams,
+  ) {
+    const user = await this.userService.findOne({
+      userId,
+      filters: queryParams,
+    });
     const response = UserDtoMapper.toResponse({ user });
     return { data: response };
   }

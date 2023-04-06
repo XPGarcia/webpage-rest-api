@@ -3,7 +3,7 @@ import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { AppModule } from '../../src/app.module';
 import { useDataSource, useSeeders } from '@jorgebodega/typeorm-seeding';
-import { UsersCreate } from '../../src/database/seeds/1651763625266-UsersCreate';
+import { UsersCreate } from '../../src/database/seeds/1680797983814-UsersCreate';
 import AppDataSource from '../../src/database/datasource';
 
 describe('UsersController', () => {

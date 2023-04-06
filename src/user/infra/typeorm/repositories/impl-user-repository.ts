@@ -1,4 +1,7 @@
-import { UserRepository } from '../../../domain/contracts/repositories/user-repository';
+import {
+  FindOneUserFilters,
+  UserRepository,
+} from '../../../domain/contracts/repositories/user.repository';
 import { UserEntity } from '../entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -19,9 +22,24 @@ export class ImplUserRepository implements UserRepository {
     return UserMapper.toDomain({ entity: createdUser });
   }
 
-  async findOne({ userId }: { userId: string }): Promise<User> {
+  async findOne({
+    userId,
+    filters,
+  }: {
+    userId: string;
+    filters?: FindOneUserFilters;
+  }): Promise<User> {
+    const withLanguages = filters.withLanguages
+      ? {
+          languages: {
+            language: true,
+          },
+        }
+      : undefined;
+
     const userEntity = await this.repository.findOne({
       where: { id: userId },
+      relations: { ...withLanguages },
     });
     if (!userEntity) return;
 

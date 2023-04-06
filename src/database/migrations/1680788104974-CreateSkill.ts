@@ -21,12 +21,6 @@ export class CreateSkill1680788104974 implements MigrationInterface {
           length: '100',
           isNullable: false,
         },
-        {
-          name: 'level',
-          type: 'smallint',
-          unsigned: true,
-          isNullable: false,
-        },
       ],
     });
     await queryRunner.createTable(table);

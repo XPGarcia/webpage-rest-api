@@ -1,12 +1,18 @@
 import { UserEntity } from '../entities/user.entity';
 import { User } from '../../../domain/entities/user.entitiy';
+import { UserLanguageMapper } from './user-language.mapper';
 
 export class UserMapper {
   public static toDomain({ entity }: { entity: UserEntity }): User {
-    return new User(entity);
+    return new User({
+      ...entity,
+      languages: UserLanguageMapper.toDomains({ entities: entity.languages }),
+    });
   }
 
   public static toDomains({ entities }: { entities: UserEntity[] }): User[] {
+    if (!entities) return [];
+
     return entities.map((entity) => this.toDomain({ entity }));
   }
 
