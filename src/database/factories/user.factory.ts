@@ -1,6 +1,6 @@
 import { FactorizedAttrs, Factory } from '@jorgebodega/typeorm-seeding';
 import { faker } from '@faker-js/faker';
-import { UserEntity } from '../../users/infra/typeorm/entities/user.entity';
+import { UserEntity } from '../../user/infra/typeorm/entities';
 
 export class UserFactory extends Factory<UserEntity> {
   protected entity = UserEntity;
