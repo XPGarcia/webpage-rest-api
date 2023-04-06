@@ -1,9 +1,11 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateUser1660749395670 implements MigrationInterface {
+export class CreateSkill1680788104974 implements MigrationInterface {
+  TABLE_NAME = 'skill';
+
   public async up(queryRunner: QueryRunner): Promise<any> {
     const table = new Table({
-      name: 'user',
+      name: this.TABLE_NAME,
       columns: [
         {
           name: 'id',
@@ -14,21 +16,15 @@ export class CreateUser1660749395670 implements MigrationInterface {
           default: `uuid_generate_v4()`,
         },
         {
-          name: 'first_name',
+          name: 'name',
           type: 'varchar',
-          length: '255',
+          length: '100',
           isNullable: false,
         },
         {
-          name: 'last_name',
-          type: 'varchar',
-          length: '255',
-          isNullable: false,
-        },
-        {
-          name: 'email',
-          type: 'varchar',
-          length: '255',
+          name: 'level',
+          type: 'smallint',
+          unsigned: true,
           isNullable: false,
         },
       ],
@@ -37,6 +33,6 @@ export class CreateUser1660749395670 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {
-    await queryRunner.dropTable('user');
+    await queryRunner.dropTable(this.TABLE_NAME);
   }
 }
