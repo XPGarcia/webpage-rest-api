@@ -1,23 +1,35 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
-import { UserController } from './router/controllers/user.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserEntity } from './infra/typeorm/entities/user.entity';
-import { UserRepository } from './domain/contracts/repositories/user.repository';
-import { ImplUserRepository } from './infra/typeorm/repositories/impl-user-repository';
-import { UserService } from './domain/services';
+import { UserController, UserSkillController } from './router/controllers';
+import { UserService, UserSkillService } from './domain/services';
 import { ExampleMiddleware } from '../shared/infra/middlewares/example.middleware';
 import { SharedModule } from '../shared/shared.module';
+import {
+  UserRepository,
+  UserSkillRepository,
+} from './domain/contracts/repositories';
+import { UserEntity, UserSkillEntity } from './infra/typeorm/entities';
+import { ImplUserRepository } from './infra/typeorm/repositories';
+import { ImplUserSkillRepository } from './infra/typeorm/repositories/impl-user-skill.repository';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity]), SharedModule],
+  imports: [
+    TypeOrmModule.forFeature([UserEntity, UserSkillEntity]),
+    SharedModule,
+  ],
   providers: [
     {
-      provide: UserRepository, // Used as a symbol
+      provide: UserRepository,
       useClass: ImplUserRepository,
     },
+    {
+      provide: UserSkillRepository,
+      useClass: ImplUserSkillRepository,
+    },
     UserService,
+    UserSkillService,
   ],
-  controllers: [UserController],
+  controllers: [UserController, UserSkillController],
   exports: [TypeOrmModule],
 })
 export class UserModule {

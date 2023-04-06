@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { UserLanguageEntity } from './user-language.entity';
+import { UserSkillEntity } from './user-skill.entity';
 
 @Entity({ name: 'user' })
 export class UserEntity {
@@ -36,8 +37,13 @@ export class UserEntity {
   @Column({ name: 'nationality', nullable: false })
   nationality!: string;
 
-  @OneToMany(() => UserLanguageEntity, (entry) => entry.user, {
+  @OneToMany(() => UserLanguageEntity, (language) => language.user, {
     cascade: true,
   })
   languages!: UserLanguageEntity[];
+
+  @OneToMany(() => UserSkillEntity, (skill) => skill.user, {
+    cascade: true,
+  })
+  skills!: UserSkillEntity[];
 }

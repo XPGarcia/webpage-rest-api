@@ -1,4 +1,4 @@
-import { Language } from './language.entity';
+import { UserLanguage } from './user-language.entity';
 
 export class User {
   id?: string;
@@ -12,7 +12,7 @@ export class User {
   description: string;
   available: boolean;
   nationality: string;
-  languages?: Language[];
+  languages?: UserLanguage[];
 
   constructor({
     id,
@@ -39,7 +39,7 @@ export class User {
     description: string;
     available: boolean;
     nationality: string;
-    languages?: Language[];
+    languages?: UserLanguage[];
   }) {
     this.id = id;
     this.firstName = firstName;

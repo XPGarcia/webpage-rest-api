@@ -7,6 +7,7 @@ import {
   IsDate,
 } from 'class-validator';
 import { toBoolean } from 'src/shared/router/helpers';
+import { UserLanguage } from 'src/user/domain/entities';
 
 export class CreateUserDto {
   @IsString()
@@ -47,4 +48,19 @@ export class FindUserQueryParams {
   @IsOptional()
   @IsBoolean()
   withLanguages?: boolean;
+}
+
+export interface UserResponse {
+  id: string;
+  firstName: string;
+  lastName: string;
+  birthDate: Date;
+  role: string;
+  email: string;
+  phone?: string;
+  address?: string;
+  description: string;
+  available: boolean;
+  nationality: string;
+  languages?: UserLanguage[];
 }

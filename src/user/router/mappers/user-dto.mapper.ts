@@ -1,5 +1,5 @@
 import { User } from 'src/user/domain/entities';
-import { CreateUserDto } from '../dtos';
+import { CreateUserDto, UserResponse } from '../dtos';
 
 export class UserDtoMapper {
   public static createDtoToDomain({ dto }: { dto: CreateUserDto }): User {
@@ -7,7 +7,7 @@ export class UserDtoMapper {
     return user;
   }
 
-  public static toResponse({ user }: { user: User }) {
-    return { ...user };
+  public static toResponse({ user }: { user: User }): UserResponse {
+    return { ...user, id: user.id };
   }
 }

@@ -4,6 +4,8 @@ import { UserFactory } from '../factories/user.factory';
 import { LanguageFactory } from '../factories/language.factory';
 import { UserLanguageFactory } from '../factories/user-language.factory';
 import { UserEntity } from 'src/user/infra/typeorm/entities';
+import { SkillFactory } from '../factories/skill.factory';
+import { UserSkillFactory } from '../factories/user-skill.factory';
 
 export class UsersCreate extends Seeder {
   async run(connection: Connection) {
@@ -22,39 +24,78 @@ export class UsersCreate extends Seeder {
       nationality: 'Ecuadorian',
     });
 
-    const userLanguages = await this.createLanguages(user);
+    await this.createLanguages(user);
+
+    await this.createSkills(user);
   }
 
   async createLanguages(user: UserEntity) {
+    const languages = [
+      {
+        name: 'Spanish',
+        level: 10,
+      },
+      {
+        name: 'English',
+        level: 8,
+      },
+      {
+        name: 'German',
+        level: 6,
+      },
+    ];
+
     const languageFactory = new LanguageFactory();
     const userLanguageFactory = new UserLanguageFactory();
 
-    const l1 = await languageFactory.create({
-      name: 'English',
-    });
-    const userL1 = await userLanguageFactory.create({
-      user: user,
-      language: l1,
-      level: 8,
-    });
+    const userLanguages = [];
 
-    const l2 = await languageFactory.create({
-      name: 'Spanish',
-    });
-    const userL2 = await userLanguageFactory.create({
-      user: user,
-      language: l2,
-      level: 10,
-    });
+    for (const { name, level } of languages) {
+      const language = await languageFactory.create({
+        name,
+      });
+      const userLanguage = await userLanguageFactory.create({
+        user,
+        language,
+        level,
+      });
+      userLanguages.push(userLanguage);
+    }
+    return userLanguages;
+  }
 
-    const l3 = await languageFactory.create({
-      name: 'German',
-    });
-    const userL3 = await userLanguageFactory.create({
-      user: user,
-      language: l3,
-      level: 6,
-    });
-    return [userL1, userL2, userL3];
+  async createSkills(user: UserEntity) {
+    const skills = [
+      { name: 'javascript', percentage: 90 },
+      { name: 'typescript', percentage: 80 },
+      { name: 'angular', percentage: 80 },
+      { name: 'react', percentage: 60 },
+      { name: 'html & css', percentage: 80 },
+      { name: 'nodejs', percentage: 60 },
+      { name: 'php', percentage: 50 },
+      { name: 'sql', percentage: 80 },
+      { name: 'aws', percentage: 50 },
+      { name: 'firebase', percentage: 50 },
+      { name: 'godot', percentage: 40 },
+      { name: 'docker', percentage: 40 },
+    ];
+
+    const skillFactory = new SkillFactory();
+    const userSkillFactory = new UserSkillFactory();
+
+    const userSkills = [];
+
+    for (const { name, percentage } of skills) {
+      const skill = await skillFactory.create({
+        name,
+      });
+      const userSkill = await userSkillFactory.create({
+        user,
+        skill: skill,
+        percentage,
+      });
+      userSkills.push(userSkill);
+    }
+    return userSkills;
   }
 }
