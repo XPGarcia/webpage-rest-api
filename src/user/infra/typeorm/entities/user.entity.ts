@@ -3,6 +3,7 @@ import { UserLanguageEntity } from './user-language.entity';
 import { UserSkillEntity } from './user-skill.entity';
 import { ExperienceEntity } from './experience.entity';
 import { EducationEntity } from './education.entity';
+import { CertificationEntity } from './certification.entity';
 
 @Entity({ name: 'user' })
 export class UserEntity {
@@ -58,4 +59,9 @@ export class UserEntity {
     cascade: true,
   })
   educationList!: EducationEntity[];
+
+  @OneToMany(() => CertificationEntity, (certification) => certification.user, {
+    cascade: true,
+  })
+  certificationList!: CertificationEntity[];
 }

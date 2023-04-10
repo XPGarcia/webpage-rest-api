@@ -4,6 +4,7 @@ import { UserFactory } from '../factories/user.factory';
 import { LanguageFactory } from '../factories/language.factory';
 import { UserLanguageFactory } from '../factories/user-language.factory';
 import {
+  CertificationEntity,
   EducationEntity,
   ExperienceEntity,
   UserEntity,
@@ -13,9 +14,9 @@ import {
 import { SkillFactory } from '../factories/skill.factory';
 import { UserSkillFactory } from '../factories/user-skill.factory';
 import { ExperienceFactory } from '../factories/experience.factory';
-import exp from 'constants';
 import { EducationFactory } from '../factories/education.factory';
-import { Education } from 'src/user/domain/entities';
+import { Education, Certification } from 'src/user/domain/entities';
+import { CertificationFactory } from '../factories/certification.factory';
 
 export class UsersCreate extends Seeder {
   async run(connection: Connection) {
@@ -41,6 +42,8 @@ export class UsersCreate extends Seeder {
     await this.createExperienceList(user);
 
     await this.createEducationList(user);
+
+    await this.createCertificationList(user);
   }
 
   async createLanguages(user: UserEntity) {
@@ -188,5 +191,34 @@ export class UsersCreate extends Seeder {
       );
     }
     return userEducationList;
+  }
+
+  async createCertificationList(user: UserEntity) {
+    const certificationList: Certification[] = [
+      {
+        date: new Date('2023-03-01'),
+        title: 'Certified Cloud Practitioner',
+        institution: 'AWS',
+        description:
+          'Achieved AWS Certified Cloud Practitioner certification from Amazon Web Services, validating in-depth knowledge of fundamental AWS Cloud concepts, such as cloud architecture, pricing, security, compliance, and core services.',
+      },
+    ];
+
+    const certificationFactory = new CertificationFactory();
+
+    const userCertificationList: CertificationEntity[] = [];
+
+    for (const certification of certificationList) {
+      userCertificationList.push(
+        await certificationFactory.create({
+          user,
+          date: certification.date,
+          title: certification.title,
+          institution: certification.institution,
+          description: certification.description,
+        }),
+      );
+    }
+    return userCertificationList;
   }
 }

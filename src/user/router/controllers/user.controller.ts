@@ -8,12 +8,14 @@ import {
   Query,
 } from '@nestjs/common';
 import {
+  CertificationService,
   EducationService,
   ExperienceService,
   UserService,
 } from '../../domain/services';
 import { CreateUserDto, FindUserQueryParams } from '../dtos';
 import {
+  CertificationDtoMapper,
   EducationDtoMapper,
   ExperienceDtoMapper,
   UserDtoMapper,
@@ -28,6 +30,8 @@ export class UserController {
     private readonly experienceService: ExperienceService,
     @Inject(EducationService)
     private readonly educationService: EducationService,
+    @Inject(CertificationService)
+    private readonly certificationService: CertificationService,
   ) {}
 
   @Post('/')
@@ -68,6 +72,15 @@ export class UserController {
       userId,
     });
     const response = EducationDtoMapper.toResponses({ educationList });
+    return { data: response };
+  }
+
+  @Get('/:id/certification')
+  async getCertificationList(@Param('id') userId: string) {
+    const certificationList = await this.certificationService.find({
+      userId,
+    });
+    const response = CertificationDtoMapper.toResponses({ certificationList });
     return { data: response };
   }
 }

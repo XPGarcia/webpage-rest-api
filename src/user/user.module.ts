@@ -2,6 +2,7 @@ import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserController, UserSkillController } from './router/controllers';
 import {
+  CertificationService,
   EducationService,
   ExperienceService,
   UserService,
@@ -10,12 +11,14 @@ import {
 import { ExampleMiddleware } from '../shared/infra/middlewares/example.middleware';
 import { SharedModule } from '../shared/shared.module';
 import {
+  CertificationRepository,
   EducationRepository,
   ExperienceRepository,
   UserRepository,
   UserSkillRepository,
 } from './domain/contracts/repositories';
 import {
+  CertificationEntity,
   EducationEntity,
   ExperienceEntity,
   UserEntity,
@@ -26,6 +29,7 @@ import {
   ImplUserRepository,
   ImplEducationRepository,
   ImplUserSkillRepository,
+  ImplCertificationRepository,
 } from './infra/typeorm/repositories';
 
 @Module({
@@ -35,6 +39,7 @@ import {
       UserSkillEntity,
       ExperienceEntity,
       EducationEntity,
+      CertificationEntity,
     ]),
     SharedModule,
   ],
@@ -55,10 +60,15 @@ import {
       provide: EducationRepository,
       useClass: ImplEducationRepository,
     },
+    {
+      provide: CertificationRepository,
+      useClass: ImplCertificationRepository,
+    },
     UserService,
     UserSkillService,
     ExperienceService,
     EducationService,
+    CertificationService,
   ],
   controllers: [UserController, UserSkillController],
   exports: [TypeOrmModule],
