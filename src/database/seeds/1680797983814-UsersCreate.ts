@@ -3,9 +3,16 @@ import { Connection } from 'typeorm';
 import { UserFactory } from '../factories/user.factory';
 import { LanguageFactory } from '../factories/language.factory';
 import { UserLanguageFactory } from '../factories/user-language.factory';
-import { UserEntity } from 'src/user/infra/typeorm/entities';
+import {
+  ExperienceEntity,
+  UserEntity,
+  UserLanguageEntity,
+  UserSkillEntity,
+} from 'src/user/infra/typeorm/entities';
 import { SkillFactory } from '../factories/skill.factory';
 import { UserSkillFactory } from '../factories/user-skill.factory';
+import { ExperienceFactory } from '../factories/experience.factory';
+import exp from 'constants';
 
 export class UsersCreate extends Seeder {
   async run(connection: Connection) {
@@ -27,6 +34,8 @@ export class UsersCreate extends Seeder {
     await this.createLanguages(user);
 
     await this.createSkills(user);
+
+    await this.createExperienceList(user);
   }
 
   async createLanguages(user: UserEntity) {
@@ -48,7 +57,7 @@ export class UsersCreate extends Seeder {
     const languageFactory = new LanguageFactory();
     const userLanguageFactory = new UserLanguageFactory();
 
-    const userLanguages = [];
+    const userLanguages: UserLanguageEntity[] = [];
 
     for (const { name, level } of languages) {
       const language = await languageFactory.create({
@@ -83,7 +92,7 @@ export class UsersCreate extends Seeder {
     const skillFactory = new SkillFactory();
     const userSkillFactory = new UserSkillFactory();
 
-    const userSkills = [];
+    const userSkills: UserSkillEntity[] = [];
 
     for (const { name, percentage } of skills) {
       const skill = await skillFactory.create({
@@ -97,5 +106,52 @@ export class UsersCreate extends Seeder {
       userSkills.push(userSkill);
     }
     return userSkills;
+  }
+
+  async createExperienceList(user: UserEntity) {
+    const experienceList = [
+      {
+        dateFrom: new Date('2021-11-01'),
+        dateTo: new Date('2022-06-01'),
+        role: 'Full-stack developer',
+        companyName: 'WOMPAD S.A',
+        description:
+          'Maintenance and development of new functionalities in the personalized template for e-commerce Kapalia (NOT WordPress). Use of JavaScript and JQuery in the client and PHP in the server. Database management in MySQL.',
+      },
+      {
+        dateFrom: new Date('2022-01-01'),
+        dateTo: new Date('2022-02-01'),
+        role: 'Full-stack developer',
+        companyName: 'Proalco',
+        description:
+          'From Figma design to production-ready code. Creation of the website using Angular, SCSS, and AWS for a food and beverage distribution company. Hosting of the web page with AWS amplify and mailing service through AWS SES.',
+      },
+      {
+        dateFrom: new Date('2021-06-01'),
+        dateTo: new Date('2021-10-01'),
+        role: 'Full-stack developer',
+        companyName: 'Box Solutions',
+        description:
+          'Development of a web application to collect large amounts of information from farmers using Angular as the front-end framework to create a SPA and Firebase for the serverless authentication and database with Firestore.',
+      },
+    ];
+
+    const experienceFactory = new ExperienceFactory();
+
+    const userExperienceList: ExperienceEntity[] = [];
+
+    for (const experience of experienceList) {
+      userExperienceList.push(
+        await experienceFactory.create({
+          user,
+          dateFrom: experience.dateFrom,
+          dateTo: experience.dateTo,
+          role: experience.role,
+          company: experience.companyName,
+          description: experience.description,
+        }),
+      );
+    }
+    return userExperienceList;
   }
 }

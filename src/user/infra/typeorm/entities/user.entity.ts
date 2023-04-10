@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { UserLanguageEntity } from './user-language.entity';
 import { UserSkillEntity } from './user-skill.entity';
+import { ExperienceEntity } from './experience.entity';
 
 @Entity({ name: 'user' })
 export class UserEntity {
@@ -46,4 +47,9 @@ export class UserEntity {
     cascade: true,
   })
   skills!: UserSkillEntity[];
+
+  @OneToMany(() => ExperienceEntity, (experience) => experience.user, {
+    cascade: true,
+  })
+  experienceList!: ExperienceEntity[];
 }

@@ -43,6 +43,12 @@ export class CreateExperience1680789739293 implements MigrationInterface {
           isNullable: false,
         },
         {
+          name: 'company',
+          type: 'varchar',
+          length: '255',
+          isNullable: false,
+        },
+        {
           name: 'description',
           type: 'text',
           isNullable: false,

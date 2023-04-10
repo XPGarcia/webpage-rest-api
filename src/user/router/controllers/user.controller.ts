@@ -7,15 +7,17 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { UserService } from '../../domain/services';
+import { ExperienceService, UserService } from '../../domain/services';
 import { CreateUserDto, FindUserQueryParams } from '../dtos';
-import { UserDtoMapper } from '../mappers';
+import { ExperienceDtoMapper, UserDtoMapper } from '../mappers';
 
 @Controller('user')
 export class UserController {
   constructor(
     @Inject(UserService)
     private readonly userService: UserService,
+    @Inject(ExperienceService)
+    private readonly experienceService: ExperienceService,
   ) {}
 
   @Post('/')
@@ -38,6 +40,15 @@ export class UserController {
       filters: queryParams,
     });
     const response = UserDtoMapper.toResponse({ user });
+    return { data: response };
+  }
+
+  @Get('/:id/experience')
+  async getExperienceList(@Param('id') userId: string) {
+    const experienceList = await this.experienceService.find({
+      userId,
+    });
+    const response = ExperienceDtoMapper.toResponses({ experienceList });
     return { data: response };
   }
 }
