@@ -4,6 +4,7 @@ import { UserFactory } from '../factories/user.factory';
 import { LanguageFactory } from '../factories/language.factory';
 import { UserLanguageFactory } from '../factories/user-language.factory';
 import {
+  EducationEntity,
   ExperienceEntity,
   UserEntity,
   UserLanguageEntity,
@@ -13,6 +14,8 @@ import { SkillFactory } from '../factories/skill.factory';
 import { UserSkillFactory } from '../factories/user-skill.factory';
 import { ExperienceFactory } from '../factories/experience.factory';
 import exp from 'constants';
+import { EducationFactory } from '../factories/education.factory';
+import { Education } from 'src/user/domain/entities';
 
 export class UsersCreate extends Seeder {
   async run(connection: Connection) {
@@ -36,6 +39,8 @@ export class UsersCreate extends Seeder {
     await this.createSkills(user);
 
     await this.createExperienceList(user);
+
+    await this.createEducationList(user);
   }
 
   async createLanguages(user: UserEntity) {
@@ -153,5 +158,35 @@ export class UsersCreate extends Seeder {
       );
     }
     return userExperienceList;
+  }
+
+  async createEducationList(user: UserEntity) {
+    const educationList: Education[] = [
+      {
+        dateFrom: new Date('2018-10-01'),
+        title: 'Computer science degree',
+        institution: 'ESPOL',
+        description:
+          'Relevant courses to be a software engineer like: Algorithm analysis, Data structure, Database system, Software Engineering, Operating systems, Cloud Computing, Development of web and mobile applications.',
+      },
+    ];
+
+    const educationFactory = new EducationFactory();
+
+    const userEducationList: EducationEntity[] = [];
+
+    for (const experience of educationList) {
+      userEducationList.push(
+        await educationFactory.create({
+          user,
+          dateFrom: experience.dateFrom,
+          dateTo: experience.dateTo,
+          title: experience.title,
+          institution: experience.institution,
+          description: experience.description,
+        }),
+      );
+    }
+    return userEducationList;
   }
 }
