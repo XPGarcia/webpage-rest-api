@@ -27,13 +27,19 @@ export class CreateProject1680787474897 implements MigrationInterface {
           isNullable: false,
         },
         {
+          name: 'code',
+          type: 'varchar',
+          length: '100',
+          isNullable: false,
+        },
+        {
           name: 'title',
           type: 'varchar',
           length: '255',
           isNullable: false,
         },
         {
-          name: 'img',
+          name: 'imgUrl',
           type: 'varchar',
           length: '255',
           isNullable: false,

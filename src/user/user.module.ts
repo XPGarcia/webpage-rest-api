@@ -8,7 +8,6 @@ import {
   UserService,
   UserSkillService,
 } from './domain/services';
-import { ExampleMiddleware } from '../shared/infra/middlewares/example.middleware';
 import { SharedModule } from '../shared/shared.module';
 import {
   CertificationRepository,
@@ -31,6 +30,7 @@ import {
   ImplUserSkillRepository,
   ImplCertificationRepository,
 } from './infra/typeorm/repositories';
+import { JWTMiddleware } from 'src/shared/infra/middlewares/jwt-handler.middleware';
 
 @Module({
   imports: [
@@ -75,6 +75,8 @@ import {
 })
 export class UserModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(ExampleMiddleware).forRoutes(UserController);
+    consumer
+      .apply(JWTMiddleware)
+      .forRoutes(UserController, UserSkillController);
   }
 }

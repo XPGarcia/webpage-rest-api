@@ -16,7 +16,7 @@ async function bootstrap() {
     }),
   );
   app.useGlobalFilters(new ExceptionHandlerFilter());
-  await import('./events/producer');
+  // await import('./events/producer');
   await app.listen(3000);
 }
 bootstrap();
