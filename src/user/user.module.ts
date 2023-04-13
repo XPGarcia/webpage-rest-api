@@ -5,6 +5,7 @@ import {
   CertificationService,
   EducationService,
   ExperienceService,
+  SocialMediaService,
   UserService,
   UserSkillService,
 } from './domain/services';
@@ -13,6 +14,7 @@ import {
   CertificationRepository,
   EducationRepository,
   ExperienceRepository,
+  SocialMediaRepository,
   UserRepository,
   UserSkillRepository,
 } from './domain/contracts/repositories';
@@ -20,6 +22,7 @@ import {
   CertificationEntity,
   EducationEntity,
   ExperienceEntity,
+  SocialMediaEntity,
   UserEntity,
   UserSkillEntity,
 } from './infra/typeorm/entities';
@@ -29,6 +32,7 @@ import {
   ImplEducationRepository,
   ImplUserSkillRepository,
   ImplCertificationRepository,
+  ImplSocialMediaRepository,
 } from './infra/typeorm/repositories';
 import { JWTMiddleware } from 'src/shared/infra/middlewares/jwt-handler.middleware';
 
@@ -40,6 +44,7 @@ import { JWTMiddleware } from 'src/shared/infra/middlewares/jwt-handler.middlewa
       ExperienceEntity,
       EducationEntity,
       CertificationEntity,
+      SocialMediaEntity,
     ]),
     SharedModule,
   ],
@@ -64,11 +69,16 @@ import { JWTMiddleware } from 'src/shared/infra/middlewares/jwt-handler.middlewa
       provide: CertificationRepository,
       useClass: ImplCertificationRepository,
     },
+    {
+      provide: SocialMediaRepository,
+      useClass: ImplSocialMediaRepository,
+    },
     UserService,
     UserSkillService,
     ExperienceService,
     EducationService,
     CertificationService,
+    SocialMediaService,
   ],
   controllers: [UserController, UserSkillController],
   exports: [TypeOrmModule],

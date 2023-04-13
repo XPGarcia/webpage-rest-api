@@ -37,9 +37,15 @@ export class ImplUserRepository implements UserRepository {
         }
       : undefined;
 
+    const withSocialMedia = filters.withSocialMedia
+      ? { socialMedia: true }
+      : undefined;
+
+    const relations = { ...withLanguages, ...withSocialMedia };
+
     const userEntity = await this.repository.findOne({
       where: { id: userId },
-      relations: { ...withLanguages },
+      relations,
     });
     if (!userEntity) return;
 

@@ -11,6 +11,7 @@ import {
   CertificationService,
   EducationService,
   ExperienceService,
+  SocialMediaService,
   UserService,
 } from '../../domain/services';
 import { CreateUserDto, FindUserQueryParams } from '../dtos';
@@ -18,6 +19,7 @@ import {
   CertificationDtoMapper,
   EducationDtoMapper,
   ExperienceDtoMapper,
+  SocialMediaDtoMapper,
   UserDtoMapper,
 } from '../mappers';
 
@@ -32,6 +34,8 @@ export class UserController {
     private readonly educationService: EducationService,
     @Inject(CertificationService)
     private readonly certificationService: CertificationService,
+    @Inject(SocialMediaService)
+    private readonly socialMediaService: SocialMediaService,
   ) {}
 
   @Post('/')
@@ -81,6 +85,15 @@ export class UserController {
       userId,
     });
     const response = CertificationDtoMapper.toResponses({ certificationList });
+    return { data: response };
+  }
+
+  @Get('/:id/socialMedia')
+  async getSocialMedia(@Param('id') userId: string) {
+    const socialMedia = await this.socialMediaService.findOne({
+      userId,
+    });
+    const response = SocialMediaDtoMapper.toResponse({ socialMedia });
     return { data: response };
   }
 }

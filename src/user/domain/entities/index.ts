@@ -6,3 +6,4 @@ export * from './user-skill.entity';
 export * from './experience.entity';
 export * from './education.entity';
 export * from './certification.entity';
+export * from './social-media.entity';

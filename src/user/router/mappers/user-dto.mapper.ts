@@ -1,5 +1,6 @@
 import { User } from 'src/user/domain/entities';
 import { CreateUserDto, UserResponse } from '../dtos';
+import { SocialMediaDtoMapper } from './social-media-dto.mapper';
 
 export class UserDtoMapper {
   public static createDtoToDomain({ dto }: { dto: CreateUserDto }): User {
@@ -8,6 +9,12 @@ export class UserDtoMapper {
   }
 
   public static toResponse({ user }: { user: User }): UserResponse {
-    return { ...user, id: user.id };
+    return {
+      ...user,
+      id: user.id,
+      socialMedia: SocialMediaDtoMapper.toResponse({
+        socialMedia: user.socialMedia,
+      }),
+    };
   }
 }

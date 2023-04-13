@@ -1,14 +1,26 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
 import { UserLanguageEntity } from './user-language.entity';
 import { UserSkillEntity } from './user-skill.entity';
 import { ExperienceEntity } from './experience.entity';
 import { EducationEntity } from './education.entity';
 import { CertificationEntity } from './certification.entity';
+import { SocialMediaEntity } from './social-media.entity';
 
 @Entity({ name: 'user' })
 export class UserEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
+
+  @OneToOne(() => SocialMediaEntity)
+  @JoinColumn()
+  socialMedia!: SocialMediaEntity;
 
   @Column({ name: 'first_name', nullable: false })
   firstName!: string;

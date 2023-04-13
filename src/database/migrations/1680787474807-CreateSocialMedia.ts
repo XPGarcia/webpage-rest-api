@@ -1,11 +1,6 @@
-import {
-  MigrationInterface,
-  QueryRunner,
-  Table,
-  TableForeignKey,
-} from 'typeorm';
+import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateSocialMedia1680787572803 implements MigrationInterface {
+export class CreateSocialMedia1680787474807 implements MigrationInterface {
   TABLE_NAME = 'social_media';
 
   public async up(queryRunner: QueryRunner): Promise<any> {
@@ -19,12 +14,6 @@ export class CreateSocialMedia1680787572803 implements MigrationInterface {
           isUnique: true,
           generationStrategy: 'uuid',
           default: `uuid_generate_v4()`,
-        },
-        {
-          name: 'userId',
-          type: 'uuid',
-          isUnique: false,
-          isNullable: false,
         },
         {
           name: 'github',
@@ -59,16 +48,6 @@ export class CreateSocialMedia1680787572803 implements MigrationInterface {
       ],
     });
     await queryRunner.createTable(table);
-
-    await queryRunner.createForeignKey(
-      this.TABLE_NAME,
-      new TableForeignKey({
-        columnNames: ['userId'],
-        referencedColumnNames: ['id'],
-        referencedTableName: 'user',
-        onDelete: 'CASCADE',
-      }),
-    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {

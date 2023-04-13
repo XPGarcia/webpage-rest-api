@@ -13,6 +13,7 @@ export interface UserRepository {
 
 export interface FindOneUserFilters {
   withLanguages?: boolean;
+  withSocialMedia?: boolean;
 }
 
 export const UserRepository = Symbol('UserRepository');

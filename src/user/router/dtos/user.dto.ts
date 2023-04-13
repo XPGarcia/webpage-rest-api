@@ -8,6 +8,7 @@ import {
 } from 'class-validator';
 import { toBoolean } from 'src/shared/router/helpers';
 import { UserLanguage } from 'src/user/domain/entities';
+import { SocialMediaResponse } from './social-media.dto';
 
 export class CreateUserDto {
   @IsString()
@@ -48,6 +49,11 @@ export class FindUserQueryParams {
   @IsOptional()
   @IsBoolean()
   withLanguages?: boolean;
+
+  @Transform(({ value }) => toBoolean(value))
+  @IsOptional()
+  @IsBoolean()
+  withSocialMedia?: boolean;
 }
 
 export interface UserResponse {
@@ -62,5 +68,6 @@ export interface UserResponse {
   description: string;
   available: boolean;
   nationality: string;
+  socialMedia?: SocialMediaResponse;
   languages?: UserLanguage[];
 }

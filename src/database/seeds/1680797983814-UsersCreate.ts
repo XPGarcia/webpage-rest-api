@@ -17,11 +17,13 @@ import { ExperienceFactory } from '../factories/experience.factory';
 import { EducationFactory } from '../factories/education.factory';
 import { Education, Certification } from 'src/user/domain/entities';
 import { CertificationFactory } from '../factories/certification.factory';
+import { SocialMediaFactory } from '../factories/social-media.factory';
 
 export class UsersCreate extends Seeder {
   async run(connection: Connection) {
     const user = await new UserFactory().create({
       id: '03c8d570-9b7d-4b96-b9b4-49228ddb7f80',
+      socialMedia: await this.createSocialMedia(),
       firstName: 'Xavier',
       lastName: 'García',
       birthDate: new Date('1997-12-19'),
@@ -220,5 +222,15 @@ export class UsersCreate extends Seeder {
       );
     }
     return userCertificationList;
+  }
+
+  async createSocialMedia() {
+    const socialMediaFactory = new SocialMediaFactory();
+
+    const socialMedia = await socialMediaFactory.create({
+      github: 'https://github.com/XPGarcia',
+      linkedin: 'https://www.linkedin.com/in/xavier-garcia-bano-244b60245/',
+    });
+    return socialMedia;
   }
 }

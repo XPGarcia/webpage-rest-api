@@ -35,7 +35,7 @@ export class CreateProject1680787474897 implements MigrationInterface {
         {
           name: 'title',
           type: 'varchar',
-          length: '255',
+          length: '100',
           isNullable: false,
         },
         {

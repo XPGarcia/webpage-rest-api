@@ -1,4 +1,9 @@
-import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+import {
+  MigrationInterface,
+  QueryRunner,
+  Table,
+  TableForeignKey,
+} from 'typeorm';
 
 export class CreateUser1680787474857 implements MigrationInterface {
   TABLE_NAME = 'user';
@@ -14,6 +19,12 @@ export class CreateUser1680787474857 implements MigrationInterface {
           isUnique: true,
           generationStrategy: 'uuid',
           default: `uuid_generate_v4()`,
+        },
+        {
+          name: 'socialMediaId',
+          type: 'uuid',
+          isUnique: true,
+          isNullable: false,
         },
         {
           name: 'first_name',
@@ -76,6 +87,16 @@ export class CreateUser1680787474857 implements MigrationInterface {
       ],
     });
     await queryRunner.createTable(table);
+
+    await queryRunner.createForeignKey(
+      this.TABLE_NAME,
+      new TableForeignKey({
+        columnNames: ['socialMediaId'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'social_media',
+        onDelete: 'SET NULL',
+      }),
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {

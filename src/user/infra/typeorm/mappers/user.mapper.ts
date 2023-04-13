@@ -1,11 +1,13 @@
 import { UserEntity } from '../entities/user.entity';
 import { User } from '../../../domain/entities/user.entitiy';
 import { UserLanguageMapper } from './user-language.mapper';
+import { SocialMediaMapper } from './social-media.mapper';
 
 export class UserMapper {
   public static toDomain({ entity }: { entity: UserEntity }): User {
     return new User({
       ...entity,
+      socialMedia: SocialMediaMapper.toDomain({ entity: entity.socialMedia }),
       languages: UserLanguageMapper.toDomains({ entities: entity.languages }),
     });
   }

@@ -1,3 +1,4 @@
+import { SocialMedia } from './social-media.entity';
 import { UserLanguage } from './user-language.entity';
 
 export class User {
@@ -12,6 +13,7 @@ export class User {
   description: string;
   available: boolean;
   nationality: string;
+  socialMedia?: SocialMedia;
   languages?: UserLanguage[];
 
   constructor({
@@ -26,6 +28,7 @@ export class User {
     description,
     available,
     nationality,
+    socialMedia,
     languages,
   }: {
     id?: string;
@@ -39,6 +42,7 @@ export class User {
     description: string;
     available: boolean;
     nationality: string;
+    socialMedia?: SocialMedia;
     languages?: UserLanguage[];
   }) {
     this.id = id;
@@ -52,6 +56,7 @@ export class User {
     this.description = description;
     this.available = available;
     this.nationality = nationality;
+    this.socialMedia = socialMedia;
     this.languages = languages;
   }
 }
