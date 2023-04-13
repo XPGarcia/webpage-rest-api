@@ -5,3 +5,4 @@ export * from './experience.mapper';
 export * from './education.mapper';
 export * from './certification.mapper';
 export * from './social-media.mapper';
+export * from './project.mapper';

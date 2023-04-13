@@ -12,15 +12,12 @@ import { ExperienceEntity } from './experience.entity';
 import { EducationEntity } from './education.entity';
 import { CertificationEntity } from './certification.entity';
 import { SocialMediaEntity } from './social-media.entity';
+import { ProjectEntity } from './project.entity';
 
 @Entity({ name: 'user' })
 export class UserEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
-
-  @OneToOne(() => SocialMediaEntity)
-  @JoinColumn()
-  socialMedia!: SocialMediaEntity;
 
   @Column({ name: 'first_name', nullable: false })
   firstName!: string;
@@ -52,6 +49,10 @@ export class UserEntity {
   @Column({ name: 'nationality', nullable: false })
   nationality!: string;
 
+  @OneToOne(() => SocialMediaEntity)
+  @JoinColumn()
+  socialMedia!: SocialMediaEntity;
+
   @OneToMany(() => UserLanguageEntity, (language) => language.user, {
     cascade: true,
   })
@@ -76,4 +77,9 @@ export class UserEntity {
     cascade: true,
   })
   certificationList!: CertificationEntity[];
+
+  @OneToMany(() => ProjectEntity, (project) => project.user, {
+    cascade: true,
+  })
+  projects!: ProjectEntity[];
 }

@@ -39,7 +39,7 @@ export class CreateProject1680787474897 implements MigrationInterface {
           isNullable: false,
         },
         {
-          name: 'imgUrl',
+          name: 'imageUrl',
           type: 'varchar',
           length: '255',
           isNullable: false,
@@ -51,7 +51,7 @@ export class CreateProject1680787474897 implements MigrationInterface {
           isNullable: true,
         },
         {
-          name: 'preview',
+          name: 'previewUrl',
           type: 'varchar',
           length: '255',
           isNullable: true,

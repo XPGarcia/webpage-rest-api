@@ -11,6 +11,7 @@ import {
   CertificationService,
   EducationService,
   ExperienceService,
+  ProjectService,
   SocialMediaService,
   UserService,
 } from '../../domain/services';
@@ -19,6 +20,7 @@ import {
   CertificationDtoMapper,
   EducationDtoMapper,
   ExperienceDtoMapper,
+  ProjectDtoMapper,
   SocialMediaDtoMapper,
   UserDtoMapper,
 } from '../mappers';
@@ -36,6 +38,8 @@ export class UserController {
     private readonly certificationService: CertificationService,
     @Inject(SocialMediaService)
     private readonly socialMediaService: SocialMediaService,
+    @Inject(ProjectService)
+    private readonly projectService: ProjectService,
   ) {}
 
   @Post('/')
@@ -94,6 +98,15 @@ export class UserController {
       userId,
     });
     const response = SocialMediaDtoMapper.toResponse({ socialMedia });
+    return { data: response };
+  }
+
+  @Get('/:id/projects')
+  async getProjects(@Param('id') userId: string) {
+    const projects = await this.projectService.find({
+      userId,
+    });
+    const response = ProjectDtoMapper.toResponses({ projects });
     return { data: response };
   }
 }

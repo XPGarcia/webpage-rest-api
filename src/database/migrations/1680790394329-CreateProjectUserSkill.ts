@@ -5,8 +5,8 @@ import {
   TableForeignKey,
 } from 'typeorm';
 
-export class CreateProjectSkill1680790394329 implements MigrationInterface {
-  TABLE_NAME = 'project_skill';
+export class CreateProjectUserSkill1680790394329 implements MigrationInterface {
+  TABLE_NAME = 'project_user_skill';
 
   public async up(queryRunner: QueryRunner): Promise<any> {
     const table = new Table({
@@ -27,7 +27,7 @@ export class CreateProjectSkill1680790394329 implements MigrationInterface {
           isNullable: false,
         },
         {
-          name: 'skillId',
+          name: 'userSkillId',
           type: 'uuid',
           isUnique: false,
           isNullable: false,
@@ -49,9 +49,9 @@ export class CreateProjectSkill1680790394329 implements MigrationInterface {
     await queryRunner.createForeignKey(
       this.TABLE_NAME,
       new TableForeignKey({
-        columnNames: ['skillId'],
+        columnNames: ['userSkillId'],
         referencedColumnNames: ['id'],
-        referencedTableName: 'skill',
+        referencedTableName: 'user_skill',
         onDelete: 'CASCADE',
       }),
     );

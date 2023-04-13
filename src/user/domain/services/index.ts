@@ -4,3 +4,4 @@ export * from './experience.service';
 export * from './education.service';
 export * from './certification.service';
 export * from './social-media.service';
+export * from './project.service';

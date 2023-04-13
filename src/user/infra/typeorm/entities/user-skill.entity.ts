@@ -1,6 +1,14 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
 import { UserEntity } from './user.entity';
 import { SkillEntity } from './skill.entity';
+import { ProjectEntity } from './project.entity';
 
 @Entity({ name: 'user_skill' })
 export class UserSkillEntity {
@@ -15,4 +23,8 @@ export class UserSkillEntity {
 
   @Column({ name: 'percentage', nullable: false })
   percentage!: number;
+
+  @ManyToMany(() => ProjectEntity)
+  @JoinTable({ name: 'project_user_skill' })
+  projects!: ProjectEntity[];
 }
