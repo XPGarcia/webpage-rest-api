@@ -39,6 +39,7 @@ import {
   ImplProjectRepository,
 } from './infra/typeorm/repositories';
 import { JWTMiddleware } from 'src/shared/infra/middlewares/jwt-handler.middleware';
+import { ProjectController } from './router/controllers/project.controller';
 
 @Module({
   imports: [
@@ -90,13 +91,13 @@ import { JWTMiddleware } from 'src/shared/infra/middlewares/jwt-handler.middlewa
     SocialMediaService,
     ProjectService,
   ],
-  controllers: [UserController, UserSkillController],
+  controllers: [UserController, UserSkillController, ProjectController],
   exports: [TypeOrmModule],
 })
 export class UserModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(JWTMiddleware)
-      .forRoutes(UserController, UserSkillController);
+      .forRoutes(UserController, UserSkillController, ProjectController);
   }
 }

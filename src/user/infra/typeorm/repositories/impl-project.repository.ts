@@ -21,4 +21,30 @@ export class ImplProjectRepository implements ProjectRepository {
 
     return ProjectMapper.toDomains({ entities });
   }
+
+  async findOne({ projectId }: { projectId: string }): Promise<Project> {
+    const projectEntity = await this.repository.findOne({
+      where: { id: projectId },
+      relations: { skills: { skill: true } },
+    });
+    if (!projectEntity) return;
+
+    return ProjectMapper.toDomain({ entity: projectEntity });
+  }
+
+  async findOneByUserIdAndCode({
+    userId,
+    code,
+  }: {
+    userId: string;
+    code: string;
+  }): Promise<Project> {
+    const projectEntity = await this.repository.findOne({
+      where: { user: { id: userId }, code },
+      relations: { skills: { skill: true } },
+    });
+    if (!projectEntity) return;
+
+    return ProjectMapper.toDomain({ entity: projectEntity });
+  }
 }

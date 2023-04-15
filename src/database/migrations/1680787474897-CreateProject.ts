@@ -3,6 +3,7 @@ import {
   QueryRunner,
   Table,
   TableForeignKey,
+  TableIndex,
 } from 'typeorm';
 
 export class CreateProject1680787474897 implements MigrationInterface {
@@ -78,6 +79,15 @@ export class CreateProject1680787474897 implements MigrationInterface {
         referencedColumnNames: ['id'],
         referencedTableName: 'user',
         onDelete: 'CASCADE',
+      }),
+    );
+
+    await queryRunner.createIndex(
+      this.TABLE_NAME,
+      new TableIndex({
+        name: `${this.TABLE_NAME}_ix_userId_code`,
+        columnNames: ['userId', 'code'],
+        isUnique: true,
       }),
     );
   }
