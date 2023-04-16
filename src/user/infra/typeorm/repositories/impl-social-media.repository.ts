@@ -13,8 +13,14 @@ export class ImplSocialMediaRepository implements SocialMediaRepository {
     private readonly repository: Repository<SocialMediaEntity>,
   ) {}
 
-  async findOne({ userId }: { userId: string }): Promise<SocialMedia> {
-    const entity = await this.repository.findOne({ where: { id: userId } });
+  async findOne({
+    socialMediaId,
+  }: {
+    socialMediaId: string;
+  }): Promise<SocialMedia> {
+    const entity = await this.repository.findOne({
+      where: { id: socialMediaId },
+    });
 
     return SocialMediaMapper.toDomain({ entity });
   }

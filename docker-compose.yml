@@ -3,6 +3,7 @@ version: '3.7'
 services:
   app:
     container_name: app
+    restart: always
     build:
       context: ./
       target: development-build-stage

@@ -4,6 +4,10 @@ import {
   UserController,
   UserSkillController,
   ProjectController,
+  EducationController,
+  ExperienceController,
+  CertificationController,
+  SocialMediaController,
 } from './router/controllers';
 import {
   CertificationService,
@@ -94,7 +98,15 @@ import { JWTMiddleware } from 'src/shared/infra/middlewares/jwt-handler.middlewa
     SocialMediaService,
     ProjectService,
   ],
-  controllers: [UserController, UserSkillController, ProjectController],
+  controllers: [
+    UserController,
+    UserSkillController,
+    ProjectController,
+    EducationController,
+    ExperienceController,
+    CertificationController,
+    SocialMediaController,
+  ],
   exports: [TypeOrmModule],
 })
 export class UserModule {

@@ -39,8 +39,6 @@ export class ImplProjectRepository implements ProjectRepository {
     userId: string;
     code: string;
   }): Promise<Project> {
-    console.log(userId);
-    console.log(code);
     const projectEntity = await this.repository.findOne({
       where: { user: { id: userId }, code },
       relations: { skills: { skill: true } },
