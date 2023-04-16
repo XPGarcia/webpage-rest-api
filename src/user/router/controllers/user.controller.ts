@@ -1,15 +1,8 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Inject,
-  Param,
-  Post,
-  Query,
-} from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post, Query } from '@nestjs/common';
 import { UserService } from '../../domain/services';
 import { CreateUserDto, FindUserQueryParams } from '../dtos';
 import { UserDtoMapper } from '../mappers';
+import { JWT } from 'src/shared/router/decorators/jwt.decorator';
 
 @Controller('user')
 export class UserController {
@@ -28,9 +21,9 @@ export class UserController {
     return { data: response };
   }
 
-  @Get('/:id')
+  @Get('/')
   async get(
-    @Param('id') userId: string,
+    @JWT('sub') userId: string,
     @Query() queryParams?: FindUserQueryParams,
   ) {
     const user = await this.userService.findOne({

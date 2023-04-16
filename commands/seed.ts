@@ -3,6 +3,8 @@ import { Command } from 'commander';
 import * as path from 'path';
 import { useDataSource, useSeeders } from '@jorgebodega/typeorm-seeding';
 import { DataSource, QueryRunner, Table } from 'typeorm';
+import AppDataSource from 'src/database/datasource';
+import { typeormConfig } from 'src/database/typeorm-config';
 const program = new Command();
 
 program
@@ -105,11 +107,8 @@ const seedTable = 'seeds',
 
     try {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const typeormConfig = require(options.config).default;
-      const AppDataSource = await new DataSource({
-        ...typeormConfig,
-      }).initialize();
-      await useDataSource(AppDataSource);
+      const datasource = await AppDataSource.initialize();
+      await useDataSource(datasource);
       seedFiles = loadFiles(typeormConfig.seeds);
       queryRunner = AppDataSource.createQueryRunner();
       await createSeedsTableIfNotExist(queryRunner);

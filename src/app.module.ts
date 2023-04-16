@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SharedModule } from './shared/shared.module';
-import typeormConfig from './database/typeorm-config';
+import { typeormConfigBuilder } from './database/typeorm-config';
 import env from './config/env';
 
 @Module({
@@ -14,8 +14,11 @@ import env from './config/env';
       isGlobal: true,
       load: [env],
     }),
-    TypeOrmModule.forRoot({
-      ...typeormConfig,
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) =>
+        typeormConfigBuilder(configService),
+      inject: [ConfigService],
     }),
     UserModule,
     SharedModule,
