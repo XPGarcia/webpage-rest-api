@@ -1,7 +1,7 @@
 import { Controller, Get, Inject, Param } from '@nestjs/common';
 import { ProjectService } from '../../domain/services';
 import { ProjectDtoMapper } from '../mappers';
-import { JWT, JWTPayload } from 'src/shared/router/decorators/jwt.decorator';
+import { JWT } from 'src/shared/router/decorators/jwt.decorator';
 
 @Controller('project')
 export class ProjectController {
@@ -9,6 +9,15 @@ export class ProjectController {
     @Inject(ProjectService)
     private readonly projectService: ProjectService,
   ) {}
+
+  @Get('/')
+  async find(@JWT('sub') userId: string) {
+    const projects = await this.projectService.find({
+      userId,
+    });
+    const response = ProjectDtoMapper.toResponses({ projects });
+    return { data: response };
+  }
 
   @Get('/:id')
   async get(@Param('id') projectId: string) {
@@ -19,7 +28,7 @@ export class ProjectController {
     return { data: response };
   }
 
-  @Get('/:code')
+  @Get('byCode/:code')
   async getByUserIdAndCode(
     @Param('code') code: string,
     @JWT('sub') userId: string,

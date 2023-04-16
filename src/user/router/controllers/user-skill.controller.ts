@@ -1,6 +1,7 @@
-import { Controller, Get, Inject, Param } from '@nestjs/common';
+import { Controller, Get, Inject } from '@nestjs/common';
 import { UserSkillService } from '../../domain/services';
 import { UserSkillDtoMapper } from '../mappers';
+import { JWT } from 'src/shared/router/decorators/jwt.decorator';
 
 @Controller('userSkill')
 export class UserSkillController {
@@ -9,8 +10,8 @@ export class UserSkillController {
     private readonly userSkillService: UserSkillService,
   ) {}
 
-  @Get('/:id')
-  async get(@Param('id') userId: string) {
+  @Get('/')
+  async get(@JWT('sub') userId: string) {
     const userSkills = await this.userSkillService.find({
       userId,
     });

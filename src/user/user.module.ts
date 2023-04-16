@@ -1,6 +1,10 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserController, UserSkillController } from './router/controllers';
+import {
+  UserController,
+  UserSkillController,
+  ProjectController,
+} from './router/controllers';
 import {
   CertificationService,
   EducationService,
@@ -39,7 +43,6 @@ import {
   ImplProjectRepository,
 } from './infra/typeorm/repositories';
 import { JWTMiddleware } from 'src/shared/infra/middlewares/jwt-handler.middleware';
-import { ProjectController } from './router/controllers/project.controller';
 
 @Module({
   imports: [
